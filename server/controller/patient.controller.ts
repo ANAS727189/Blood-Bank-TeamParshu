@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { BloodRequest, Inventory, Patient } from '../model/model';
 import { IPatient } from '../model/schema/patient.schema';
 
+
 const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phoneNo } = req.body;
@@ -152,9 +153,31 @@ const deleteBloodRequest = async (req: Request, res: Response) => {
   }
 };
 
+const verifyPatient = async (req: Request,res: Response) => {
+  try{
+    const { _id,role } = req.body;
+
+    if(_id === undefined || role === undefined){
+      return ResponseApi(res,403,'Forbidden');
+    }
+
+    const patient = await Patient.findById(_id);
+    return ResponseApi(res,200,'Admin verified successfully',patient);
+  }catch(error){
+    return ResponseApi(
+      res,
+      500,
+      error instanceof Error
+        ? error.message
+        : 'An unknown error occurred while verifying the patient'
+    )
+  }
+}
+
 export { 
   login,
-  register, 
+  register,
+  verifyPatient,
   getBloodRequests,
   postBloodRequest,
   getBloodAvailable,

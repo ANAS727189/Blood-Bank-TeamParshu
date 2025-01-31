@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import { IInventory } from '../model/schema/inventory.schema';
 
+
 const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password, phoneNo } = req.body;
@@ -204,11 +205,12 @@ const updateInventory = async (req: Request, res: Response) => {
   try {
     const { _id, A_P, A_M, B_P, B_M, AB_P, AB_M, O_P, O_M } = req.body;
 
+    //Should allow for values to be zero
     // if (!_id || !A_P || !A_M || !B_P || !B_M || !AB_P || !AB_M || !O_P || !O_M) {
     //   return ResponseApi(res, 400, 'Please provide all required fields');
     // }
 
-    if (A_P < 0 || A_M < 0 || B_P < 0 || B_M < 0 || AB_P < 0 || AB_M < 0 || O_P < 0 || O_M < 0) {
+    if (A_P < 0 || A_M < 0 || B_P < 0 || B_M < 0 || AB_P < 0 || AB_M < 0 || O_P < 0 || O_M < 0 || _id) {
       return ResponseApi(res, 400, 'Quantity cannot be negative');
     }
 
@@ -303,6 +305,45 @@ const addBloodDonated = async (req: Request, res: Response) => {
   }
 }
 
+const verifyOrganisation = async (req: Request,res: Response) => {
+  try{
+    const { _id,role } = req.body;
+
+    if(_id === undefined || role === undefined){
+      return ResponseApi(res,403,'Forbidden');
+    }
+
+    const org = await Organisation.findById(_id);
+    return ResponseApi(res,200,'Admin verified successfully',org);
+  }catch(error){
+    return ResponseApi(
+      res,
+      500,
+      error instanceof Error
+        ? error.message
+        : 'An unknown error occurred while verifying the org'
+    )
+  }
+}
+
+const getDonationLocations = async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.body;
+
+    if (!_id) {
+      return ResponseApi(res, 400, 'Please provide all required fields');
+    }
+
+    const locations = await DonationLocation.find({ organisationId: _id });
+    return ResponseApi(res, 200, 'Donation locations retrieved successfully', locations);
+  } catch (error) {
+    if (error instanceof Error) {
+      return ResponseApi(res, 500, error.message);
+    }
+    return ResponseApi(res, 500, 'An unknown error occurred while getting donation locations');
+  }
+};
+
 export {
   login,
   register,
@@ -310,8 +351,10 @@ export {
   addBloodDonated,
   updateInventory,
   getBloodRequests,
+  verifyOrganisation,
   addDonationLocation,
   completeBloodRequest,
   updateDonationLocation,
   deleteDonationLocation,
+  getDonationLocations
 };

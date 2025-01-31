@@ -1,73 +1,113 @@
+import {
+  Donor,
+  Patient,
+  Landing,
+  NotFound,
+  DonorLogin,
+  Organisation,
+  DonorRegister,
+  PatientLogin,
+  PatientRegister,
+  OrganisationLogin,
+  OrganisationRegister
+} from "./Pages/page"
+import Unprotected from "./components/Routes/UnProtectedRoute";
 import { Route, Routes } from "react-router-dom";
-import NotFound from "./Pages/NotFound";
-import Protected from "./components/Routes/ProtectedRoute.tsx"
-import UnProtected from "./components/Routes/UnProtectedRoute.tsx";
-import DonorRegister from "./Pages/DonorPages/DonorAuth/register.tsx";
-import DonorLogin from "./Pages/DonorPages/DonorAuth/login.tsx";
-import Landing from "./Pages/Landing";
 import "./index.css"
+import ProtectedDonor from "./components/Routes/Protected/DonorProtected";
+import ProtectedPatient from "./components/Routes/Protected/PatientProtected";
+import ProtectedOrganisation from "./components/Routes/Protected/OrganisationProtected";
 
 
 const App = () => {
   return (
     <Routes>
-      {/* <Route
-        path="/donor"
-        element={
-          <Protected>
-            <Donor />
-          </Protected>
-        }
-      />
-      <Route path="/organisation" element={
-        <Protected>
-          <Inventory />
-        </Protected>
-      
-      }/> */}
-      {/* <Route path="/hospital" element={
-        <Protected>
-          <Hospital />
-        </Protected>
-      } /> */}
-      {/* <Route
-        path="/account"
-        element={
-          <Protected>
-            <Account />
-          </Protected>
-        }
-      /> */}
       <Route
         path="/"
         element={
-          <UnProtected>
+          <Unprotected>
             <Landing />
-          </UnProtected>
+          </Unprotected>
         }
       />
       <Route
-        path="/login"
+        path="/donor/login"
         element={
-          <UnProtected>
+          <Unprotected>
             <DonorLogin />
-          </UnProtected>
+          </Unprotected>
         }
       />
       <Route
-        path="/register"
+        path="/donor/register"
         element={
-          <UnProtected>
+          <Unprotected>
             <DonorRegister />
-          </UnProtected>
+          </Unprotected>
         }
+      />
+      <Route
+        path="/patient/login"
+        element={
+          <Unprotected>
+            <PatientLogin />
+          </Unprotected>
+        }
+      />
+      <Route
+        path="/patient/register"
+        element={
+          <Unprotected>
+            <PatientRegister />
+          </Unprotected>
+        }
+      />
+      <Route
+        path="/organisation/login"
+        element={
+          <Unprotected>
+            <OrganisationLogin />
+          </Unprotected>
+        }
+      />
+      <Route
+        path="/organisation/register"
+        element={
+          <Unprotected>
+            <OrganisationRegister />
+          </Unprotected>
+        }
+      />
+      <Route 
+      path="/donor/dashboard"
+      element={
+        <ProtectedDonor>
+          <Donor />
+        </ProtectedDonor>
+      }
+      />
+      <Route 
+      path="/patient/dashboard"
+      element={
+        <ProtectedPatient>
+          <Patient />
+        </ProtectedPatient>
+      }
+      />
+      <Route 
+      path="/organisation/dashboard"
+      element={
+        <ProtectedOrganisation>
+          <Organisation />
+        </ProtectedOrganisation>
+      }
       />
       <Route
         path="*"
         element={
-          <UnProtected>
+          <Unprotected>
             <NotFound />
-          </UnProtected>
+          </Unprotected>
         }
       />
     </Routes>

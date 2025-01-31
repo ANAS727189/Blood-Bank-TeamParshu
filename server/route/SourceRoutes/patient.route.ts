@@ -4,7 +4,8 @@ import {
   postBloodRequest,
   getBloodRequests,
   getBloodAvailable,
-  deleteBloodRequest 
+  deleteBloodRequest, 
+  verifyPatient
 } from '../../controller/patient.controller';
 
 import { Router } from 'express';
@@ -13,10 +14,12 @@ const router = Router();
 
 // Routes Go Here
 
+
 router.post('/login', login);
 router.post('/register', register);
-router.post('/bloodRequest',patientMiddleware, postBloodRequest);
+router.get('/verifyPatient',patientMiddleware, verifyPatient);
 router.get('/bloodRequests',patientMiddleware, getBloodRequests);
+router.post('/bloodRequest',patientMiddleware, postBloodRequest);
 router.get('/bloodAvailable',patientMiddleware, getBloodAvailable);
 router.delete('/bloodRequest/:requestId',patientMiddleware, deleteBloodRequest);
 
