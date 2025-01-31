@@ -8,21 +8,24 @@ import {
     completeBloodRequest,
     updateDonationLocation,
     deleteDonationLocation,
+    getInventory,
 } from '../../controller/organisation.controller';
 import { Router } from 'express';
+import { organisationMiddleware } from '../../middleware/organisation.middleware';
 const router = Router();
 
 // Routes Go Here
 
 router.post('/login', login);
 router.post('/register', register);
-router.put('/updateInventory', updateInventory);
-router.post('/addBloodDonated', addBloodDonated);
-router.get('/getBloodRequests', getBloodRequests);
-router.post('/addDonationLocation', addDonationLocation);
-router.put('/completeBloodRequest', completeBloodRequest);
-router.put('/updateDonationLocation', updateDonationLocation);
-router.delete('/deleteDonationLocation', deleteDonationLocation);
+router.get('/getInventory', organisationMiddleware, getInventory)
+router.patch('/updateInventory', organisationMiddleware, updateInventory);
+router.post('/addBloodDonated', organisationMiddleware, addBloodDonated);
+router.get('/getBloodRequests', organisationMiddleware, getBloodRequests);
+router.post('/addDonationLocation', organisationMiddleware, addDonationLocation);
+router.patch('/completeBloodRequest', organisationMiddleware, completeBloodRequest);
+router.patch('/updateDonationLocation', organisationMiddleware, updateDonationLocation);
+router.delete('/deleteDonationLocation', organisationMiddleware, deleteDonationLocation);
 
 // Routes Go Here
 
