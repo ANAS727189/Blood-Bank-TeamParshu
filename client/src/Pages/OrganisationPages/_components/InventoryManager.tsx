@@ -3,8 +3,12 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import axiosInstance from "@/util/axiosInstance"
 import { motion } from "framer-motion"
+import { useThemeStore } from "@/store/themeStore"
+import { Package, Save } from "lucide-react"
+import { toast } from "react-hot-toast"
 
 interface IInventory {
     A_P: number
@@ -28,6 +32,7 @@ interface IInventory {
         O_P: 0,
         O_M: 0,
     })
+    const { theme } = useThemeStore()
 
     useEffect(() => {
         fetchInventory()
@@ -39,6 +44,7 @@ interface IInventory {
         setInventory(data.data)
         } catch (error) {
         console.error("Error fetching inventory:", error)
+        toast.error("Failed to fetch inventory. Please try again.")
         }
     }
 
@@ -51,24 +57,36 @@ interface IInventory {
         try {
         await axiosInstance.patch("/organisation/updateInventory", inventory)
         await fetchInventory()
+        toast.success("Inventory updated successfully")
         } catch (error) {
         console.error("Error updating inventory:", error)
+        toast.error("Failed to update inventory. Please try again.")
         }
     }
 
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-        <Card className="bg-base-200/50 backdrop-blur-sm border-primary/10">
+        <Card
+            className={`${
+            theme === "light" ? "bg-white border-gray-200 shadow-sm" : "bg-base-200/50 backdrop-blur-sm border-primary/10"
+            }`}
+        >
             <CardHeader>
-            <CardTitle>Inventory Management</CardTitle>
+            <CardTitle className={`flex items-center ${theme === "light" ? "text-gray-800" : ""}`}>
+                <Package className="w-6 h-6 mr-2 text-blue-500" />
+                Inventory Management
+            </CardTitle>
             </CardHeader>
             <CardContent>
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                 {Object.entries(inventory).map(([key, value]) => (
                 <div key={key}>
-                    <label htmlFor={key} className="block text-sm font-medium text-gray-700">
-                    {key}
-                    </label>
+                    <Label
+                    htmlFor={key}
+                    className={`block text-sm font-medium ${theme === "light" ? "text-gray-700" : "text-gray-200"}`}
+                    >
+                    {key.replace("_", " ")}
+                    </Label>
                     <Input
                     type="number"
                     name={key}
@@ -76,11 +94,19 @@ interface IInventory {
                     value={value}
                     onChange={handleChange}
                     min="0"
-                    className="bg-base-100"
+                    className={theme === "light" ? "bg-gray-50 border-gray-300" : "bg-base-100"}
                     />
                 </div>
                 ))}
-                <Button type="submit" className="col-span-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                <Button
+                type="submit"
+                className={`col-span-2 ${
+                    theme === "light"
+                    ? "bg-red-600 hover:bg-red-700 text-white"
+                    : "bg-primary text-primary-foreground hover:bg-primary/90"
+                }`}
+                >
+                <Save className="w-4 h-4 mr-2" />
                 Update Inventory
                 </Button>
             </form>
@@ -88,7 +114,7 @@ interface IInventory {
         </Card>
         </motion.div>
     )
-}
+    }
 
 export default InventoryManager
 
