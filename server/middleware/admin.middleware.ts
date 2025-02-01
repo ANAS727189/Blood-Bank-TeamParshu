@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import ResponseApi from '../util/ApiResponse.util';
 import jwt from 'jsonwebtoken';
 
+
 export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
     try{
         /*
@@ -13,13 +14,11 @@ export const adminMiddleware = (req: Request, res: Response, next: NextFunction)
                 },
             });
         */
-        console.log("CP-1 Middleware")
         const token = req.header('Authorization')?.split(' ')[1];
         if (!token) {
             return ResponseApi(res, 401, 'Unauthorized');
         }
 
-        console.log("CP-2 Middleware")
         jwt.verify(token, process.env.JWT_SECRET_KEY!, (error, decodedToken) => {
             if (error) {
                 return ResponseApi(res, 403, 'Forbidden');
@@ -37,7 +36,6 @@ export const adminMiddleware = (req: Request, res: Response, next: NextFunction)
                     return ResponseApi(res, 403, 'Forbidden');
                 }
             }
-            console.log("CP-3 Middleware")
             next();
         });
     }

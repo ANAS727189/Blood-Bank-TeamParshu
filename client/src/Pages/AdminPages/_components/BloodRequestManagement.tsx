@@ -2,25 +2,23 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import type { Types } from "mongoose"
 import axiosInstance from "@/util/axiosInstance"
 import { motion } from "framer-motion"
 
 interface IBloodRequest {
     _id: string
     patientId: {
-        _id: Types.ObjectId
         name: string
         email: string
         phoneNo?: string
     }
     quantity: string
-    type: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"
+    type: string
     completed: boolean
     createdAt: string
     }
 
-    const OrganizationBloodRequests = () => {
+    const BloodRequestManagement = () => {
     const [requests, setRequests] = useState<IBloodRequest[]>([])
 
     useEffect(() => {
@@ -29,19 +27,19 @@ interface IBloodRequest {
 
     const fetchBloodRequests = async () => {
         try {
-        const { data } = await axiosInstance.get("/organisation/getBloodRequests")
+        const { data } = await axiosInstance.get("/admin/getBloodRequests")
         setRequests(data.data)
         } catch (error) {
         console.error("Error fetching blood requests:", error)
         }
     }
 
-    const handleComplete = async (requestId: string) => {
+    const handleDelete = async (requestId: string) => {
         try {
-        await axiosInstance.patch("/organisation/completeBloodRequest", { requestId })
+        await axiosInstance.delete("/admin/deleteBloodRequest", { data: { bloodRequestId: requestId } })
         await fetchBloodRequests()
         } catch (error) {
-        console.error("Error completing blood request:", error)
+        console.error("Error deleting blood request:", error)
         }
     }
 
@@ -49,43 +47,32 @@ interface IBloodRequest {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
         <Card className="bg-base-200/50 backdrop-blur-sm border-primary/10">
             <CardHeader>
-            <CardTitle>Blood Requests</CardTitle>
+            <CardTitle>Blood Request Management</CardTitle>
             </CardHeader>
             <CardContent>
             <Table>
                 <TableHeader>
                 <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Patient Name</TableHead>
-                    <TableHead>Contact</TableHead>
+                    <TableHead>Patient</TableHead>
                     <TableHead>Blood Type</TableHead>
                     <TableHead>Quantity</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Date</TableHead>
                     <TableHead>Action</TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
                 {requests.map((request) => (
                     <TableRow key={request._id}>
-                    <TableCell>{new Date(request.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>{request.patientId.name}</TableCell>
-                    <TableCell>
-                        {request.patientId.email}
-                        {request.patientId.phoneNo && <br />}
-                        {request.patientId.phoneNo}
-                    </TableCell>
                     <TableCell>{request.type}</TableCell>
                     <TableCell>{request.quantity}</TableCell>
                     <TableCell>{request.completed ? "Completed" : "Pending"}</TableCell>
+                    <TableCell>{new Date(request.createdAt).toLocaleDateString()}</TableCell>
                     <TableCell>
-                        {!request.completed && (
-                        <Button
-                            onClick={() => handleComplete(request._id)}
-                            className="bg-primary text-primary-foreground hover:bg-primary/90"
-                        >
-                            Mark Completed
+                        <Button variant="destructive" onClick={() => handleDelete(request._id)}>
+                        Delete
                         </Button>
-                        )}
                     </TableCell>
                     </TableRow>
                 ))}
@@ -97,5 +84,6 @@ interface IBloodRequest {
     )
 }
 
-export default OrganizationBloodRequests
+export default BloodRequestManagement
+
 
