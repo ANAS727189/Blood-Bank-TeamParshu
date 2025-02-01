@@ -1,4 +1,4 @@
-import { 
+import {
   deleteDonationLocation,
   getDonationLocations,
   deleteOrganisation,

@@ -1,9 +1,7 @@
 import { ReactNode } from 'react';
-
 interface LayoutProps {
   children: ReactNode;
 }
-
 const _Layout = ({ children }: LayoutProps) => {
   return (
     <div>
@@ -11,5 +9,4 @@ const _Layout = ({ children }: LayoutProps) => {
     </div>
   )
 }
-
 export default _Layout
