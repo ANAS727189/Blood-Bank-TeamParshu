@@ -19,7 +19,7 @@ func SetupOraganisationRoutes(app *fiber.App) {
 
 		return c.Status(200).JSON(fiber.Map{
 			"donor":   oraganisation,
-			"message": "Admin user found successfully",
+			"message": "Org found successfully",
 		})
 	})
 }

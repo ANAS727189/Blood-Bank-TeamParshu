@@ -23,7 +23,6 @@ func NormalChatRoutes(app *fiber.App) {
 
 		return c.Status(200).JSON(fiber.Map{
 			"response": response,
-			"message":  "Admin user found successfully",
 		})
 	})
 }

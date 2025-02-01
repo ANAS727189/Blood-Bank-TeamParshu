@@ -21,7 +21,7 @@ func SetupDonorRoutes(app *fiber.App) {
 
 		return c.Status(200).JSON(fiber.Map{
 			"donor":   donor,
-			"message": "Admin user found successfully",
+			"message": "Donor user found successfully",
 		})
 	})
 
