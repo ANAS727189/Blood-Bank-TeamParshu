@@ -29,7 +29,10 @@ const ChatBot = () => {
 
     try {
       const response = await axios.post(GO_BACK + "/chat", { query: input })
-      const aiMessage = { role: "ai" as const, content: response.data.answer }
+      console.log(GO_BACK + "/chat")
+      console.log(response)
+      const parsedResponse = JSON.parse(response.data.response)
+      const aiMessage = { role: "ai" as const, content: parsedResponse.answer }
       setMessages((prev) => [...prev, aiMessage])
     } catch (error) {
       console.error("Error sending message:", error)
@@ -51,7 +54,7 @@ const ChatBot = () => {
                   MediCare
                 </Badge>
                 <CardTitle className={`text-2xl font-bold ${theme === "light" ? "text-gray-800" : "text-white"}`}>
-                Your Own Healthcare Assistant
+                  Your Own Healthcare Assistant
                 </CardTitle>
               </div>
             </div>
@@ -80,8 +83,8 @@ const ChatBot = () => {
                               ? "bg-red-600"
                               : "bg-primary"
                             : theme === "light"
-                              ? "bg-gray-200"
-                              : "bg-gray-700"
+                            ? "bg-gray-200"
+                            : "bg-gray-700"
                         }`}
                       >
                         {msg.role === "user" ? (
@@ -97,8 +100,8 @@ const ChatBot = () => {
                               ? "bg-red-600 text-white"
                               : "bg-primary text-white"
                             : theme === "light"
-                              ? "bg-gray-200 text-gray-800"
-                              : "bg-gray-700 text-gray-100"
+                            ? "bg-gray-200 text-gray-800"
+                            : "bg-gray-700 text-gray-100"
                         }`}
                       >
                         {msg.content}
@@ -150,4 +153,3 @@ const ChatBot = () => {
 }
 
 export default ChatBot
-
