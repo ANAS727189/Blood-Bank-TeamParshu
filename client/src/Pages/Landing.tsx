@@ -132,7 +132,7 @@ const teamMembers = [
     github: "https://github.com/MishraShardendu22",
   },
   {
-    name: "Sourav",
+    name: "Saurav",
     role: "AI/ML Developer",
     github: "https://github.com/karkisav",
   },
@@ -140,7 +140,7 @@ const teamMembers = [
     name: "Mayank",
     role: "Backend Developer",
     github: "https://github.com/Mayank-8127",
-  },
+                      },
 ]
 
 interface BloodTypeCardProps {
@@ -504,7 +504,8 @@ const Landing = () => {
                 </DialogContent>
               </Dialog>
 
-              <motion.button
+              <motion.a
+                href="http://localhost:3001"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`gap-2 btn btn-outline btn-lg ${
@@ -515,7 +516,7 @@ const Landing = () => {
               >
                 Learn More
                 <ChevronDown className="w-5 h-5" />
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         </div>
