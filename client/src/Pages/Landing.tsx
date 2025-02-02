@@ -1,6 +1,7 @@
 import type React from "react"
 import { useState } from "react"
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps"
+import { motion } from "framer-motion"
 const INDIA_GEO_DATA = {
   type: "FeatureCollection",
   features: [
@@ -9,43 +10,83 @@ const INDIA_GEO_DATA = {
       properties: { name: "Andhra Pradesh" },
       geometry: {
         type: "Polygon",
-        coordinates: [[[83.0, 18.0], [84.0, 18.0], [84.0, 17.0], [83.0, 17.0], [83.0, 18.0]]]
-      }
+        coordinates: [
+          [
+            [83.0, 18.0],
+            [84.0, 18.0],
+            [84.0, 17.0],
+            [83.0, 17.0],
+            [83.0, 18.0],
+          ],
+        ],
+      },
     },
     {
       type: "Feature",
       properties: { name: "Karnataka" },
       geometry: {
         type: "Polygon",
-        coordinates: [[[75.0, 15.0], [77.0, 15.0], [77.0, 13.0], [75.0, 13.0], [75.0, 15.0]]]
-      }
+        coordinates: [
+          [
+            [75.0, 15.0],
+            [77.0, 15.0],
+            [77.0, 13.0],
+            [75.0, 13.0],
+            [75.0, 15.0],
+          ],
+        ],
+      },
     },
     {
       type: "Feature",
       properties: { name: "Tamil Nadu" },
       geometry: {
         type: "Polygon",
-        coordinates: [[[77.0, 13.0], [79.0, 13.0], [79.0, 11.0], [77.0, 11.0], [77.0, 13.0]]]
-      }
+        coordinates: [
+          [
+            [77.0, 13.0],
+            [79.0, 13.0],
+            [79.0, 11.0],
+            [77.0, 11.0],
+            [77.0, 13.0],
+          ],
+        ],
+      },
     },
     {
       type: "Feature",
       properties: { name: "Kerala" },
       geometry: {
         type: "Polygon",
-        coordinates: [[[75.0, 12.0], [77.0, 12.0], [77.0, 8.0], [75.0, 8.0], [75.0, 12.0]]]
-      }
+        coordinates: [
+          [
+            [75.0, 12.0],
+            [77.0, 12.0],
+            [77.0, 8.0],
+            [75.0, 8.0],
+            [75.0, 12.0],
+          ],
+        ],
+      },
     },
     {
       type: "Feature",
       properties: { name: "Maharashtra" },
       geometry: {
         type: "Polygon",
-        coordinates: [[[72.0, 20.0], [78.0, 20.0], [78.0, 18.0], [72.0, 18.0], [72.0, 20.0]]]
-      }
-    }
-  ]
-};
+        coordinates: [
+          [
+            [72.0, 20.0],
+            [78.0, 20.0],
+            [78.0, 18.0],
+            [72.0, 18.0],
+            [72.0, 20.0],
+          ],
+        ],
+      },
+    },
+  ],
+}
 
 import {
   Heart,
@@ -63,10 +104,9 @@ import {
   Shield,
   Github,
   Mail,
-  Contact
+  Contact,
 } from "lucide-react"
 import { useThemeStore } from "@/store/themeStore"
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -139,12 +179,52 @@ const BloodTypeCard: React.FC<BloodTypeCardProps> = ({ type, availability, theme
   )
 }
 
+const bloodDonationExtendedData = {
+  creativeFacts: {
+    historicalFacts: [
+      {
+        title: "Ancient Understanding",
+        fact: "Ancient Romans believed that drinking gladiators' blood would give them strength and courage",
+      },
+      {
+        title: "First Transfusion",
+        fact: "The first successful human blood transfusion was performed by James Blundell in 1818 for postpartum hemorrhage",
+      },
+      {
+        title: "World War Impact",
+        fact: "Blood banking began during World War I, revolutionizing battlefield medicine",
+      },
+    ],
+    surprisingFacts: [
+      {
+        title: "Color Change",
+        fact: "Blood isn't always red - some animals have blue, green, or even clear blood!",
+      },
+      {
+        title: "Distance Traveled",
+        fact: "Your blood travels about 12,000 miles per day through your blood vessels",
+      },
+      {
+        title: "Fast Production",
+        fact: "Your body produces about 2 million new red blood cells every second",
+      },
+      {
+        title: "Heart Power",
+        fact: "Your heart generates enough pressure to squirt blood 30 feet across a room",
+      },
+    ],
+  },
+}
+
+const responsiveText = (base: string, sm: string, lg: string, xl?: string) =>
+  `text-${base} sm:text-${sm} lg:text-${lg}${xl ? ` xl:text-${xl}` : ""}`
+
 const Landing = () => {
   const navigate = useNavigate()
   const { theme } = useThemeStore()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [tooltipContent, setTooltipContent] = useState("");
-  const [hoveredState, setHoveredState] = useState(null);
+  const [tooltipContent, setTooltipContent] = useState("")
+  const [hoveredState, setHoveredState] = useState(null)
 
   const handleNavigation = (path: string) => {
     navigate(path)
@@ -198,9 +278,7 @@ const Landing = () => {
       className={`relative min-h-screen ${theme}`}
       data-theme={theme === "dark" ? "bloodsphere-dark" : "bloodsphere-light"}
     >
-
       <Navbar />
-
 
       <motion.section
         className={`min-h-screen hero ${theme === "light" ? "bg-white text-gray-900" : "text-white"}`}
@@ -229,13 +307,13 @@ const Landing = () => {
           </motion.div>
         </div>
 
-        <div className="flex-col gap-16 hero-content lg:flex-row-reverse max-w-7xl">
+        <div className="flex-col-reverse gap-16 hero-content lg:flex-row-reverse max-w-7xl">
           <motion.div variants={itemVariants} className="relative max-w-xl">
             <div
               className={`absolute inset-0 bg-gradient-to-br ${theme === "light" ? "from-red-500 to-orange-500" : "from-primary to-accent"} rounded-full blur-[100px] ${theme === "light" ? "opacity-10" : "opacity-20"}`}
             />
             <motion.div
-              className="relative z-10 grid grid-cols-2 gap-6"
+              className="relative z-10 grid grid-cols-2 gap-3 sm:grid-cols-1"
               animate={{ y: [0, -20, 0] }}
               transition={{ duration: 6, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
             >
@@ -289,12 +367,12 @@ const Landing = () => {
               Save Lives Today
             </motion.div>
 
-            <h1 className="mb-8 text-6xl font-bold leading-tight lg:text-7xl">
+            <h1 className="mb-8 text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl xl:text-7xl">
               Your Blood
               <span className={`block ${theme === "light" ? "text-red-500" : "text-primary"}`}>Their Hope</span>
             </h1>
 
-            <p className={`mb-8 text-xl ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
+            <p className={`mb-8 text-base sm:text-lg lg:text-xl ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
               Join our global network of life-savers. Every donation can save up to three lives and bring hope to
               families in need.
             </p>
@@ -453,11 +531,106 @@ const Landing = () => {
         </motion.div>
       </motion.section>
 
+      {/* Fascinating Blood Facts Section */}
+      <section
+        className={`py-24 ${theme === "light" ? "bg-gradient-to-b from-white to-gray-50" : "bg-gradient-to-b from-base-100 to-base-200"}`}
+      >
+        <div className="max-w-[1920px] px-4 sm:px-6 mx-auto">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="mb-16 text-center">
+            <div
+              className={`inline-flex items-center gap-2 px-4 py-2 mb-4 rounded-full ${
+                theme === "light" ? "bg-red-500/10" : "bg-primary/10"
+              }`}
+            >
+              <Sparkles className={`w-5 h-5 ${theme === "light" ? "text-red-500" : "text-primary"}`} />
+              <span className={`font-medium ${theme === "light" ? "text-red-500" : "text-primary"}`}>
+                Did You Know?
+              </span>
+            </div>
+            <h2 className={`text-3xl sm:text-4xl font-bold mb-6 ${theme === "light" ? "text-gray-900" : "text-white"}`}>
+              Fascinating Blood Facts
+            </h2>
+            <p className={`max-w-2xl mx-auto text-lg ${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>
+              Explore intriguing facts about blood and its rich history in medicine
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            <div
+              className={`absolute inset-y-0 left-0 w-32 z-10 pointer-events-none ${
+                theme === "light"
+                  ? "bg-gradient-to-r from-white to-transparent"
+                  : "bg-gradient-to-r from-base-100 to-transparent"
+              }`}
+            />
+            <div
+              className={`absolute inset-y-0 right-0 w-32 z-10 pointer-events-none ${
+                theme === "light"
+                  ? "bg-gradient-to-l from-white to-transparent"
+                  : "bg-gradient-to-l from-base-100 to-transparent"
+              }`}
+            />
+
+            <motion.div
+              animate={{
+                x: [0, -2000],
+                transition: {
+                  x: {
+                    repeat: Number.POSITIVE_INFINITY,
+                    repeatType: "loop",
+                    duration: 40,
+                    ease: "linear",
+                  },
+                },
+              }}
+              className="flex gap-8"
+            >
+              {[
+                ...bloodDonationExtendedData.creativeFacts.historicalFacts,
+                ...bloodDonationExtendedData.creativeFacts.surprisingFacts,
+              ].map((fact, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                  className={`flex flex-col justify-between p-6 rounded-2xl ${
+                    theme === "light"
+                      ? "bg-white border border-gray-200 shadow-lg hover:border-red-500/50"
+                      : "bg-base-200 border border-base-300 shadow-lg hover:border-primary/50"
+                  }`}
+                  style={{ width: "300px", minHeight: "280px", flex: "0 0 auto" }}
+                >
+                  <div>
+                    <div className={`flex items-center gap-3 mb-4`}>
+                      <div className={`p-3 rounded-full ${theme === "light" ? "bg-red-500/10" : "bg-primary/10"}`}>
+                        {index % 2 === 0 ? (
+                          <Clock className={`w-6 h-6 ${theme === "light" ? "text-red-500" : "text-primary"}`} />
+                        ) : (
+                          <Droplets className={`w-6 h-6 ${theme === "light" ? "text-red-500" : "text-primary"}`} />
+                        )}
+                      </div>
+                      <h3 className={`text-xl font-semibold ${theme === "light" ? "text-gray-900" : "text-white"}`}>
+                        {fact.title}
+                      </h3>
+                    </div>
+                    <p className={`${theme === "light" ? "text-gray-600" : "text-gray-300"}`}>{fact.fact}</p>
+                  </div>
+                  <div className={`mt-4 text-sm font-medium ${theme === "light" ? "text-red-500" : "text-primary"}`}>
+                    #{index % 2 === 0 ? "HistoricalFact" : "SurprisingFact"}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Blood Availability Section */}
       <section className={`relative py-16 overflow-hidden ${theme === "light" ? "bg-gray-50" : ""}`}>
         <div className="container px-4 mx-auto max-w-7xl">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="mb-12 text-center">
-            <h2 className={`mb-4 text-3xl font-bold ${theme === "light" ? "text-gray-900" : ""}`}>
+            <h2
+              className={`${responsiveText("2xl", "3xl", "4xl")} font-bold ${theme === "light" ? "text-gray-900" : ""}`}
+            >
               Current Blood Availability
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
@@ -465,7 +638,7 @@ const Landing = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-8">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
             {[
               { type: "A+", availability: 85 },
               { type: "A-", availability: 60 },
@@ -494,7 +667,9 @@ const Landing = () => {
               <Sparkles className={`w-5 h-5 ${theme === "light" ? "text-red-500" : "text-primary"}`} />
               <span className={`font-medium ${theme === "light" ? "text-red-500" : ""}`}>Donor Achievements</span>
             </div>
-            <h2 className={`mb-4 text-4xl font-bold ${theme === "light" ? "text-gray-900" : ""}`}>
+            <h2
+              className={`${responsiveText("3xl", "4xl", "5xl")} font-bold ${theme === "light" ? "text-gray-900" : ""}`}
+            >
               Every Donation Counts
             </h2>
             <p className={`max-w-2xl mx-auto ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
@@ -502,7 +677,7 @@ const Landing = () => {
             </p>
           </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 title: "Bronze Lifesaver",
@@ -561,10 +736,12 @@ const Landing = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="grid items-center gap-16 lg:grid-cols-2"
+            className="grid items-center gap-8 lg:gap-16 lg:grid-cols-2"
           >
             <div>
-              <h2 className={`mb-6 text-4xl font-bold ${theme === "light" ? "text-gray-900" : ""}`}>
+              <h2
+                className={`${responsiveText("3xl", "4xl", "5xl")} font-bold ${theme === "light" ? "text-gray-900" : ""}`}
+              >
                 Find Donation Centers Near You
               </h2>
               <p className={`mb-8 text-lg ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
@@ -585,7 +762,7 @@ const Landing = () => {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <MapPin className={`w-5 h-5 ${theme === "light" ? "text-red-500" : "text-primary"}`} />
+                      <MapPin className={`w-5 h-5 ${theme === "light" ? "text-red-500" : "textprimary"}`} />
                       <div>
                         <h3 className={`font-medium ${theme === "light" ? "text-gray-900" : ""}`}>{center.label}</h3>
                         <p className={`text-sm ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
@@ -618,61 +795,60 @@ const Landing = () => {
                   />
                 ))} */}
                 <div className="relative w-full h-full">
-      <ComposableMap
-        projection="geoMercator"
-        projectionConfig={{
-          scale: 1000,
-          center: [78.9629, 22.5937] 
-        }}
-        className="w-full h-full"
-      >
-        <Geographies geography={INDIA_GEO_DATA}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const isHovered = hoveredState === geo.properties.name;
-              
-              return (
-                
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={isHovered ? "#FF8787" : "#FF6B6B"}
-                  stroke="#FFFFFF"
-                  strokeWidth={0.5}
-                  style={{
-                    default: {
-                      outline: "none"
-                    },
-                    hover: {
-                      fill: "#FF8787",
-                      outline: "none",
-                      cursor: "pointer"
-                    },
-                    pressed: {
-                      outline: "none"
-                    }
-                  }}
-                  onMouseEnter={() => {
-                    setTooltipContent(geo.properties.name);
-                    setHoveredState(geo.properties.name);
-                  }}
-                  onMouseLeave={() => {
-                    setTooltipContent("");
-                    setHoveredState(null);
-                  }}
-                />
-              );
-            })
-          }
-        </Geographies>
-      </ComposableMap>
-      
-      {tooltipContent && (
-        <div className="absolute px-3 py-2 text-sm bg-white rounded-lg shadow-lg top-4 left-4">
-          {tooltipContent}
-        </div>
-      )}
-    </div>
+                  <ComposableMap
+                    projection="geoMercator"
+                    projectionConfig={{
+                      scale: 1000,
+                      center: [78.9629, 22.5937],
+                    }}
+                    className="w-full h-full"
+                  >
+                    <Geographies geography={INDIA_GEO_DATA}>
+                      {({ geographies }) =>
+                        geographies.map((geo) => {
+                          const isHovered = hoveredState === geo.properties.name
+
+                          return (
+                            <Geography
+                              key={geo.rsmKey}
+                              geography={geo}
+                              fill={isHovered ? "#FF8787" : "#FF6B6B"}
+                              stroke="#FFFFFF"
+                              strokeWidth={0.5}
+                              style={{
+                                default: {
+                                  outline: "none",
+                                },
+                                hover: {
+                                  fill: "#FF8787",
+                                  outline: "none",
+                                  cursor: "pointer",
+                                },
+                                pressed: {
+                                  outline: "none",
+                                },
+                              }}
+                              onMouseEnter={() => {
+                                setTooltipContent(geo.properties.name)
+                                setHoveredState(geo.properties.name)
+                              }}
+                              onMouseLeave={() => {
+                                setTooltipContent("")
+                                setHoveredState(null)
+                              }}
+                            />
+                          )
+                        })
+                      }
+                    </Geographies>
+                  </ComposableMap>
+
+                  {tooltipContent && (
+                    <div className="absolute px-3 py-2 text-sm bg-white rounded-lg shadow-lg top-4 left-4">
+                      {tooltipContent}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </motion.div>
@@ -688,7 +864,9 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className={`mb-4 text-4xl font-bold ${theme === "light" ? "text-gray-900" : ""}`}>
+            <h2
+              className={`${responsiveText("3xl", "4xl", "5xl")} font-bold ${theme === "light" ? "text-gray-900" : ""}`}
+            >
               Why Choose BloodSphere?
             </h2>
             <p className={`max-w-2xl mx-auto text-lg ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
@@ -696,7 +874,7 @@ const Landing = () => {
             </p>
           </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -728,13 +906,17 @@ const Landing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className={`mb-4 text-4xl font-bold ${theme === "light" ? "text-gray-900" : ""}`}>How It Works</h2>
+            <h2
+              className={`${responsiveText("3xl", "4xl", "5xl")} font-bold ${theme === "light" ? "text-gray-900" : ""}`}
+            >
+              How It Works
+            </h2>
             <p className={`max-w-2xl mx-auto text-lg ${theme === "light" ? "text-gray-600" : "opacity-80"}`}>
               Join our platform in three simple steps and start saving lives
             </p>
           </motion.div>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 icon: Users,
@@ -780,7 +962,7 @@ const Landing = () => {
       {/* Impact Stats Section */}
       <section className={`py-24 ${theme === "light" ? "bg-gray-50" : "bg-base-200"}`}>
         <div className="container px-4 mx-auto max-w-7xl">
-          <div className="grid gap-8 md:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { value: "10K+", label: "Active Donors" },
               { value: "30K+", label: "Lives Saved" },
@@ -808,7 +990,7 @@ const Landing = () => {
       {/* Footer Section */}
       <footer className={`relative ${theme === "light" ? "bg-gray-100 text-gray-800" : "bg-base-200 text-slate-200"}`}>
         <div className="container relative px-6 py-12 mx-auto">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {/* Platform Info */}
             <div className="space-y-6">
               <div className="flex items-center space-x-2">
@@ -892,7 +1074,7 @@ const Landing = () => {
               <h3 className={`mb-6 text-lg font-semibold ${theme === "light" ? "text-gray-900" : ""}`}>
                 Developed by BloodSphere
               </h3>
-              <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {teamMembers.map((member) => (
                   <motion.div
                     key={member.name}
