@@ -11,7 +11,7 @@ const Navbar = () => {
     const user = useUserStore((state: any) => state.user)
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 px-4 border-b backdrop-blur-sm border-primary/10 
+        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 px-4 md:px-6 border-b backdrop-blur-sm border-primary/10 
             ${theme === 'light' 
                 ? 'bg-white/50 text-gray-900' 
                 : 'bg-base-200/50 text-white'
@@ -21,7 +21,7 @@ const Navbar = () => {
                 <Droplets className="w-6 h-6 text-primary" />
                 <button
                     onClick={() => navigate("/")}
-                    className={`text-xl font-bold text-transparent bg-clip-text
+                    className={`text-lg md:text-xl font-bold text-transparent bg-clip-text truncate
                         ${theme === 'light'
                             ? 'bg-gradient-to-r from-gray-900 to-primary/80'
                             : 'bg-gradient-to-r from-white to-primary/50'
