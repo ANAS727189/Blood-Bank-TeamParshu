@@ -55,7 +55,7 @@ export interface IDonation {
     const setUser = useUserStore((state: any) => state.setUser)
     const { theme } = useThemeStore()
 
-    const [donationImpactFacts, setDonationImpactFacts] = useState([
+    const donationImpactFacts = [
         {
         title: "Cancer Support",
         fact: "Many cancer patients need daily blood transfusions during chemotherapy",
@@ -72,9 +72,9 @@ export interface IDonation {
         title: "Time Sensitivity",
         fact: "Someone needs blood every two seconds in India",
         },
-    ])
+    ]
 
-    const [motivationalFacts, setMotivationalFacts] = useState([
+    const motivationalFacts = [
         {
         title: "Life Multiplier",
         fact: "If you donate blood 4 times a year for 50 years, you could help save up to 600 lives",
@@ -91,7 +91,7 @@ export interface IDonation {
         title: "Calorie Burn",
         fact: "You burn approximately 650 calories by donating one unit of blood",
         },
-    ])
+    ]
 
     useEffect(() => {
         fetchDonorInfo()
