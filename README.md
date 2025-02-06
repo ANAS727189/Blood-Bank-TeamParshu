@@ -99,6 +99,11 @@ _A hackathon project developed during a 36-hour marathon at IIT Dharwad by Team 
 
 ---
 
+**AWS**
+- [Frontend](bloodbank.mayankdev.com)
+- [backend Typescript](bloodbank-node.mayankdev.com)
+- [backend GoLang](bloodbank-go.mayankdev.com) 
+
 ### Database
 
 - **MongoDB**  
